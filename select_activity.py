@@ -1,7 +1,8 @@
+import argparse
 import random
 
-def main(lines_per_batch=5):
-    with open('activities.txt', 'r', encoding='utf-8') as file:
+def main(activity_file='activities.txt', lines_per_batch=5):
+    with open(activity_file, 'r', encoding='utf-8') as file:
         lines = file.readlines()
 
     random.shuffle(lines)
@@ -20,6 +21,28 @@ def main(lines_per_batch=5):
             print("Press CTRL+C to quit.")
             input()
 
+
 if __name__ == '__main__':
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        'activity_file',
+        nargs='?',
+        default='activities.txt',
+        help='Activity file to read (default: activities.txt)',
+    )
+
+    parser.add_argument(
+        "-n",
+        "--lines-per-batch",
+        type=int,
+        default=5,
+        help="Number of activities shown per batch (default: 5)",
+    )
+
+    args = parser.parse_args()
+
+    if args.lines_per_batch < 1:
+        parser.error('--lines-per-batch must be at least 1')
+
+    main(args.activity_file, args.lines_per_batch)
 
