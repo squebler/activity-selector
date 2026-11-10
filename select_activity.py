@@ -44,5 +44,8 @@ if __name__ == '__main__':
     if args.lines_per_batch < 1:
         parser.error('--lines-per-batch must be at least 1')
 
-    main(args.activity_file, args.lines_per_batch)
+    try:
+        main(args.activity_file, args.lines_per_batch)
+    except KeyboardInterrupt:
+        pass
 
